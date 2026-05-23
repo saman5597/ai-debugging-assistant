@@ -6,6 +6,10 @@ The application analyzes programming errors, stack traces, and code snippets to 
 
 ---
 
+## Preview
+
+![AI Debugging Assistant](./screenshots/app-preview.png)
+
 ## Features
 
 - AI-powered error analysis

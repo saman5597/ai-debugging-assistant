@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { DebugAnalysisResponse, DebugRequestPayload } from '../types/debug';
 
-const API_BASE_URL = 'http://localhost:5225/api';
+const API_BASE_URL = `${import.meta.env.VITE_BASEURL}/api`;
 
 export const analyzeDebugIssue = async (
   payload: DebugRequestPayload

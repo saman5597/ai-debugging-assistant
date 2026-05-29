@@ -4,11 +4,17 @@ import debugRoutes from './routes/debug.routes';
 
 const app = express();
 
+const allowedOrigins = ['http://localhost:5173', process.env.FRONTEND_URL];
+
 app.use(
   cors({
-    origin: 'http://localhost:5173',
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true,
   })
 );

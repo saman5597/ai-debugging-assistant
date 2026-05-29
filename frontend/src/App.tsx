@@ -10,17 +10,19 @@ function App() {
   return (
     <main className="app">
       <header>
-      <h1>
-        AI <span>Debugging Assistant</span>
-      </h1>
+        <h1>
+          AI <span>Debugging Assistant</span>
+        </h1>
+
         <p>
-          Paste your error, stack trace, and code snippet to get root cause
-          analysis and fix suggestions.
+          Paste your error message, stack trace, and code snippet to get
+          AI-powered root cause analysis and fix recommendations.
         </p>
       </header>
 
       <div className="layout">
         <DebugForm onResult={setResult} />
+
         {result && <AnalysisResult result={result} />}
       </div>
     </main>

@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { analyzeDebugIssue, mockAnalyzeDebugIssue } from "../api/debugApi";
+import {
+  analyzeDebugIssue,
+  mockAnalyzeDebugIssue,
+} from "../api/debugApi";
 import { DebugAnalysisResponse } from "../types/debug";
 
 type Props = {
@@ -45,11 +48,120 @@ const DebugForm = ({ onResult }: Props) => {
     }
   };
 
+  const loadReactExample = () => {
+    setErrorMessage(
+      "TypeError: Cannot read properties of undefined reading map"
+    );
+
+    setStackTrace("at UserList.jsx:12");
+
+    setCodeSnippet(
+      `const names = users.map(user => user.name);`
+    );
+
+    setLanguage("JavaScript");
+    setFramework("React");
+  };
+
+  const loadNodeExample = () => {
+    setErrorMessage(
+      "UnhandledPromiseRejectionWarning: TypeError: Cannot read property 'id' of null"
+    );
+
+    setStackTrace(
+      `at getUser (/server/controllers/userController.js:24:18)`
+    );
+
+    setCodeSnippet(
+      `const userId = user.id;
+
+const user = await User.findById(req.params.id);`
+    );
+
+    setLanguage("JavaScript");
+    setFramework("Node.js");
+  };
+
+  const loadMongoExample = () => {
+    setErrorMessage(
+      "MongoNetworkError: failed to connect to server"
+    );
+
+    setStackTrace(
+      `MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017`
+    );
+
+    setCodeSnippet(
+      `mongoose.connect(process.env.MONGO_URI);`
+    );
+
+    setLanguage("JavaScript");
+    setFramework("MongoDB");
+  };
+
+  const loadTypeScriptExample = () => {
+    setErrorMessage(
+      "Type 'string | undefined' is not assignable to type 'string'"
+    );
+
+    setStackTrace(
+      `src/services/auth.service.ts:18:5`
+    );
+
+    setCodeSnippet(
+      `const token: string = process.env.JWT_SECRET;`
+    );
+
+    setLanguage("TypeScript");
+    setFramework("Node.js");
+  };
+
   return (
     <div className="card">
       <h2>Analyze Debugging Issue</h2>
 
+      <div className="example-section">
+        <p className="example-title">
+          Quick Examples
+        </p>
+
+        <div className="example-grid">
+          <button
+            type="button"
+            className="example-button"
+            onClick={loadReactExample}
+          >
+            React Undefined Map
+          </button>
+
+          <button
+            type="button"
+            className="example-button"
+            onClick={loadNodeExample}
+          >
+            Node.js Async Error
+          </button>
+
+          <button
+            type="button"
+            className="example-button"
+            onClick={loadMongoExample}
+          >
+            MongoDB Connection
+          </button>
+
+          <button
+            type="button"
+            className="example-button"
+            onClick={loadTypeScriptExample}
+          >
+            TypeScript Type Error
+          </button>
+        </div>
+      </div>
+
       <label>Error Message *</label>
+
       <textarea
         value={errorMessage}
         onChange={(e) => setErrorMessage(e.target.value)}
@@ -57,6 +169,7 @@ const DebugForm = ({ onResult }: Props) => {
       />
 
       <label>Stack Trace</label>
+
       <textarea
         value={stackTrace}
         onChange={(e) => setStackTrace(e.target.value)}
@@ -64,6 +177,7 @@ const DebugForm = ({ onResult }: Props) => {
       />
 
       <label>Code Snippet</label>
+
       <textarea
         value={codeSnippet}
         onChange={(e) => setCodeSnippet(e.target.value)}
@@ -71,26 +185,47 @@ const DebugForm = ({ onResult }: Props) => {
       />
 
       <label>Language</label>
+
       <input
         value={language}
         onChange={(e) => setLanguage(e.target.value)}
       />
 
       <label>Framework</label>
+
       <input
         value={framework}
         onChange={(e) => setFramework(e.target.value)}
       />
 
       <div className="button-row">
-        <button onClick={handleAnalyze} disabled={loading || !errorMessage}>
-          {loading ? "Analyzing debugging issue..." : "Analyze Issue"}
+        <button
+          onClick={handleAnalyze}
+          disabled={loading || !errorMessage}
+        >
+          {loading
+            ? "Analyzing debugging issue..."
+            : "Analyze Issue"}
         </button>
 
-        <button type="button" onClick={handleMockAnalyze}>
+        <button
+          type="button"
+          onClick={handleMockAnalyze}
+        >
           Use Mock Result
         </button>
       </div>
+
+      {loading && (
+        <div className="loading-state">
+          <div className="spinner"></div>
+
+          <p>
+            Analyzing stack trace and identifying root
+            cause...
+          </p>
+        </div>
+      )}
     </div>
   );
 };

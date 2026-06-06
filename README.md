@@ -8,19 +8,42 @@ The application analyzes programming errors, stack traces, and code snippets to 
 
 ## Preview
 
-![AI Debugging Assistant](./screenshots/app-preview.png)
+![AI Debugging Assistant](./screenshots/home.png)
+
+### AI Analysis
+
+![Analysis](./screenshots/analysis.png)
+
+### Debug History
+
+![History](./screenshots/history.png)
 
 ## Features
 
-- AI-powered error analysis
-- Stack trace interpretation
-- Root cause detection
+- AI-powered debugging analysis
+- Root cause identification
 - Severity classification
 - Confidence scoring
 - Suggested fixes
 - Improved code recommendations
-- Prevention tips
-- Mock API support for frontend development
+- Persistent debugging history
+- PostgreSQL + Prisma integration
+- Reload previous analyses
+- Multiple built-in debugging examples
+
+## Architecture
+
+```text
+React
+   ↓
+Express API
+   ↓
+OpenAI
+   ↓
+Prisma ORM
+   ↓
+PostgreSQL (Neon)
+```
 
 ---
 

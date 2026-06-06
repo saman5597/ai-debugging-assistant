@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model DebugReport {
+  id                String   @id @default(cuid())
+
+  errorMessage      String
+  stackTrace        String?
+  codeSnippet       String?
+
+  language          String
+  framework         String?
+
+  summary           String
+  rootCause         String
+
+  severity          String
+  confidenceScore   Float
+
+  suggestedFix      String
+  improvedCode      String?
+
+  preventionTips    Json
+  followUpQuestions Json?
+
+  createdAt         DateTime @default(now())
+}

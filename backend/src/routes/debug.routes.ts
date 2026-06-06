@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import { analyzeDebugIssue } from '../controllers/debug.controller';
+import { getDebugHistory } from '../controllers/history.controller';
+import { getDebugReport } from '../controllers/report.controller';
 
 const router = Router();
 
@@ -29,5 +31,9 @@ router.post('/mock-analyze', (_req, res) => {
     },
   });
 });
+
+router.get('/history', getDebugHistory);
+
+router.get('/report/:id', getDebugReport);
 
 export default router;

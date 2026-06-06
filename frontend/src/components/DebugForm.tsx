@@ -30,6 +30,9 @@ const DebugForm = ({ onResult }: Props) => {
       });
 
       onResult(result);
+      window.dispatchEvent(
+        new Event("historyUpdated")
+      );
     } catch (error) {
       console.error(error);
       alert("Failed to analyze issue. Check backend logs.");

@@ -1,4 +1,5 @@
 import OpenAI from 'openai';
+import { prisma } from '../lib/prisma';
 import { DebugRequestInput } from '../schemas/debug.schema';
 import { DebugAnalysisResponse } from '../types/debug.types';
 import { aiDebugResponseSchema } from '../schemas/ai-response.schema';
@@ -76,6 +77,31 @@ Rules:
   try {
     const parsedJson = JSON.parse(content);
     const validatedResponse = aiDebugResponseSchema.parse(parsedJson);
+    const data = {
+      errorMessage: input.errorMessage,
+      stackTrace: input.stackTrace,
+      codeSnippet: input.codeSnippet,
+
+      language: input.language,
+      framework: input.framework,
+
+      summary: validatedResponse.summary,
+      rootCause: validatedResponse.rootCause,
+
+      severity: validatedResponse.severity,
+      confidenceScore: validatedResponse.confidenceScore,
+
+      suggestedFix: validatedResponse.suggestedFix,
+      improvedCode: validatedResponse.improvedCode || null,
+
+      preventionTips: validatedResponse.preventionTips,
+
+      followUpQuestions: validatedResponse.followUpQuestions || [],
+    };
+
+    await prisma.debugReport.create({
+      data: data,
+    });
 
     return validatedResponse as DebugAnalysisResponse;
   } catch (error) {
